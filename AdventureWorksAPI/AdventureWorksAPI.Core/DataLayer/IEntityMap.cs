@@ -1,11 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace AdventureWorksAPI.Core.DataLayer
 {
-    interface IEntityMap
+    public interface IEntityMap
     {
         void Map(ModelBuilder modelBuilder);
     }

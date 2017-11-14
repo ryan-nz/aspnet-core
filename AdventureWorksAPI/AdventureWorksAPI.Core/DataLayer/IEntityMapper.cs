@@ -1,10 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using Microsoft.EntityFrameworkCore;
 
 namespace AdventureWorksAPI.Core.DataLayer
 {
-    interface IEntityMapper
+    public interface IEntityMapper
     {
+        IEnumerable<IEntityMap> Mappings { get; }
+
+        void MapEntities(ModelBuilder modelBuilder);
+
     }
 }

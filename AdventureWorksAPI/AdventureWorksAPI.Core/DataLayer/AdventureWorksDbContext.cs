@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using AdventureWorksAPI.Core.DataLayer;
+using System;
 
 namespace AdventureWorksAPI.Core.DataLayer
 {
@@ -16,6 +13,8 @@ namespace AdventureWorksAPI.Core.DataLayer
 
         public String ConnectionString { get; }
 
+        public IEntityMapper EntityMapper { get; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer(ConnectionString);
@@ -25,7 +24,8 @@ namespace AdventureWorksAPI.Core.DataLayer
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.MapProduct();
+            //modelBuilder.MapProduct();
+            EntityMapper.MapEntities(modelBuilder);
 
             base.OnModelCreating(modelBuilder);
         }

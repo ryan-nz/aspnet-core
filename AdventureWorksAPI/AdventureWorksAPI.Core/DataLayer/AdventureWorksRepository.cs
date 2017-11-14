@@ -12,13 +12,21 @@ namespace AdventureWorksAPI.Core.DataLayer
         private readonly AdventureWorksDbContext DbContext;
         private Boolean Disposed;
 
+        public AdventureWorksRepository(AdventureWorksDbContext dbContext)
+        {
+            DbContext = dbContext;
+        }
+
         public void Dispose()
         {
             if (!Disposed)
             {
-                DbContext?.Dispose();
+                if (DbContext != null)
+                {
+                    DbContext.Dispose();
 
-                Disposed = true;
+                    Disposed = true;
+                }
             }
         }
 
