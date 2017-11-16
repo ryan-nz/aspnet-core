@@ -5,7 +5,8 @@ using System.Threading.Tasks;
 
 namespace AdventureWorksAPI.Responses
 {
-    interface ISingleModelResponse
+    public interface ISingleModelResponse<TModel> : IResponse
     {
+        TModel Model { get; set; }
     }
 }

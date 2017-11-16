@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace AdventureWorksAPI.Responses
 {
-    interface IResponse
+    public interface IResponse
     {
+        string Message { get; set; }
+        bool HadError { get; set; }
+        string ErrorMessage { get; set; }
     }
 }

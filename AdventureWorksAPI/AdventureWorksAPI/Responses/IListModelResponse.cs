@@ -5,7 +5,10 @@ using System.Threading.Tasks;
 
 namespace AdventureWorksAPI.Responses
 {
-    interface IListModelResponse
+    public interface IListModelResponse<TModel> : IResponse
     {
+        int PageSize { get; set; }
+        int PageNumber { get; set; }
+        IEnumerable<TModel> Model { get; set; }
     }
 }
