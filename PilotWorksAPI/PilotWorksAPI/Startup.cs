@@ -28,8 +28,6 @@ namespace PilotWorksAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Added manually myself
-            //services.AddDbContext<AdventureWorksDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc();
 
             services.AddEntityFrameworkSqlServer().AddDbContext<PilotWorksDbContext>();
@@ -39,7 +37,6 @@ namespace PilotWorksAPI
 
             services.AddOptions();
 
-            //services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
             services.Configure<AppSettings>(Configuration.GetSection("ConnectionStrings"));
 
             services.AddSingleton<IConfiguration>(Configuration);
@@ -57,44 +54,6 @@ namespace PilotWorksAPI
             loggerFactory.AddDebug();
 
             app.UseMvc();
-
-            AddDataIntoDatabaseForDevStage(app);
-        }
-
-        private void AddDataIntoDatabaseForDevStage(IApplicationBuilder app)
-        {
-            // added from Code-First approach
-            using (var scope = app.ApplicationServices.CreateScope())
-            {
-                var services = scope.ServiceProvider;
-                try
-                {
-                    //services.Configure<AppSettings>(optionsSetup =>
-                    //{
-                    //    //get from config.json file
-                    //    optionsSetup.ConnectionString = Configuration.GetConnectionString("DefaultConnection");
-                    //});
-
-                    var context = GetAdventureWorksDbContext();
-                    DbInitializer.Initialize(context);
-                }
-                catch (Exception ex)
-                {
-                    var logger = services.GetRequiredService<ILogger<Program>>();
-                    logger.LogError(ex, "An error occurred while seeding the database.");
-                }
-            }
-        }
-
-        private PilotWorksDbContext GetAdventureWorksDbContext()
-        {
-            string strDefaultConnection = Configuration.GetConnectionString("DefaultConnection");
-            AppSettings appSettings = new AppSettings();
-            appSettings.DefaultConnection = strDefaultConnection;
-
-            var iappSettings = Options.Create(appSettings);
-
-            return new PilotWorksDbContext(iappSettings, new PilotWorksEntityMapper());
         }
     }
 }

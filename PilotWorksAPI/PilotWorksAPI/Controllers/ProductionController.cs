@@ -16,16 +16,16 @@ namespace PilotWorksAPI.Controllers
     [Route("api/[controller]")]
     public class ProductionController : Controller
     {
-        private IPilotWorksRepository AdventureWorksRepository;
+        private IPilotWorksRepository PilotWorksRepository;
 
         public ProductionController(IPilotWorksRepository repository)
         {
-            AdventureWorksRepository = repository;
+            PilotWorksRepository = repository;
         }
 
         protected override void Dispose(Boolean disposing)
         {
-            AdventureWorksRepository?.Dispose();
+            PilotWorksRepository?.Dispose();
 
             base.Dispose(disposing);
         }
@@ -49,7 +49,7 @@ namespace PilotWorksAPI.Controllers
                 response.PageSize = (Int32)pageSize;
                 response.PageNumber = (Int32)pageNumber;
 
-                response.Model = await AdventureWorksRepository
+                response.Model = await PilotWorksRepository
                         .GetProducts(response.PageSize, response.PageNumber, name)
                         .Select(item => item.ToViewModel())
                         .ToListAsync();
@@ -79,7 +79,7 @@ namespace PilotWorksAPI.Controllers
 
             try
             {
-                var entity = await AdventureWorksRepository.GetProductAsync(new Product { ProductID = id });
+                var entity = await PilotWorksRepository.GetProductAsync(new Product { ProductID = id });
 
                 response.Model = entity?.ToViewModel();
             }
@@ -92,22 +92,71 @@ namespace PilotWorksAPI.Controllers
             return response.ToHttpResponse();
         }
 
-        // POST: api/Production
+        // POST: api/Production/Product
         [HttpPost]
-        public void Post([FromBody]string value)
+        [Route("Product")]
+        public async Task<IActionResult> Post([FromBody]ProductViewModel uploadData)
         {
+            var response = new SingleModelResponse<ProductViewModel>();
+
+            try
+            {
+                var entity = await PilotWorksRepository.UpdateProductAsync(uploadData.ToEntity());
+
+                response.Model = entity?.ToViewModel();
+                response.Message = "The record was updated successfully";
+            }
+            catch (Exception ex)
+            {
+                response.HadError = true;
+                response.ErrorMessage = ex.Message;
+            }
+
+            return response.ToHttpResponse();
         }
-        
+
         // PUT: api/Production/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public async Task<IActionResult> Put(int id, [FromBody]ProductViewModel uploadData)
         {
+            var response = new SingleModelResponse<ProductViewModel>();
+
+            try
+            {
+                var entity = await PilotWorksRepository.UpdateProductAsync(uploadData.ToEntity());
+
+                response.Model = entity?.ToViewModel();
+                response.Message = "The record was updated successfully";
+            }
+            catch (Exception ex)
+            {
+                response.HadError = true;
+                response.ErrorMessage = ex.Message;
+            }
+
+            return response.ToHttpResponse();
         }
         
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            var response = new SingleModelResponse<ProductViewModel>();
+
+            try
+            {
+                var entity = await PilotWorksRepository.DeleteProductAsync(new Product { ProductID = id });
+
+                response.Model = entity?.ToViewModel();
+                response.Message = "The record was deleted successfully";
+            }
+            catch (Exception ex)
+            {
+                response.HadError = true;
+                response.ErrorMessage = ex.Message;
+            }
+
+            return response.ToHttpResponse();
         }
     }
 }
