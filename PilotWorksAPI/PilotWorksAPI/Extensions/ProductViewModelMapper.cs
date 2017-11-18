@@ -23,6 +23,7 @@ namespace PilotWorksAPI.Extensions
         {
             return new Product
             {
+                ProductID = viewModel.ProductID,
                 Name = viewModel.ProductName,
                 ProductNumber = viewModel.ProductNumber
             };

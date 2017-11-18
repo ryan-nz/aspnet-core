@@ -1,15 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PilotWorksAPI.Core.DataLayer;
+using PilotWorksAPI.Core.EntityLayer;
+using PilotWorksAPI.Extensions;
 using PilotWorksAPI.Responses;
 using PilotWorksAPI.ViewModels;
-using PilotWorksAPI.Extensions;
-using Microsoft.EntityFrameworkCore;
-using PilotWorksAPI.Core.EntityLayer;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace PilotWorksAPI.Controllers
 {
@@ -101,10 +99,10 @@ namespace PilotWorksAPI.Controllers
 
             try
             {
-                var entity = await PilotWorksRepository.UpdateProductAsync(uploadData.ToEntity());
+                var entity = await PilotWorksRepository.AddProductAsync(uploadData.ToEntity());
 
                 response.Model = entity?.ToViewModel();
-                response.Message = "The record was updated successfully";
+                response.Message = "The record was added successfully";
             }
             catch (Exception ex)
             {
@@ -138,7 +136,8 @@ namespace PilotWorksAPI.Controllers
         }
         
         // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
+        [HttpDelete]
+        [Route("Product/{id}")]
         public async Task<IActionResult> Delete(int id)
         {
             var response = new SingleModelResponse<ProductViewModel>();

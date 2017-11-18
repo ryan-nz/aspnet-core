@@ -92,5 +92,11 @@ namespace PilotWorksAPI.Core.DataLayer
 
             return entity;
         }
+
+        public int GetMaxProductID()
+        {
+            int value = DbContext.Set<Product>().Max(p => p.ProductID);
+            return value;
+        }
     }
 }
