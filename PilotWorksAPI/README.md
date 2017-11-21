@@ -6,7 +6,7 @@
 - EF
 - Code First
 - Dependency Injection
-- TDD
+- TDD (Mocker Testing)
 
 
 ## Software Prerequisites
