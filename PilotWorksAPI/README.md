@@ -11,7 +11,7 @@
 
 ## Software Prerequisites
 - Visual Studio 2017
-- MySql running on docker (PS. I will test on MySql server on docker of Linux)
+- MS SQLExpress (PS. Refer to 'PilotWorksAPI-ForMySql' for MySql server running on Linux docker hosted on Windows 10)
 
 
 ## Some key points to complete this project
