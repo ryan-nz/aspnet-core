@@ -1,5 +1,4 @@
 ## Skills Prerequisites
-
 - C#
 - ORM (Object Relational Mapping) Note: You may use dynamic way for mapping.
 - Web API (RESTful)
@@ -14,18 +13,17 @@
 - MySql (running on Linux docker which is set up on my Windows 10)
   1. mysql-installer-community-5.7.20.0.msi installed if want to use MySql WorkBench.
   2. mysql-for-visualstudio-1.2.7.msi installed if want to use database connection tool in Visual Studio.
-  3. For docker, I installed Docker Toolbox (Docker version 17.07.0-ce, build 8784753)
-  4.　Docker image: centurylink/mysql (ubuntu:14.04)
-     - Refer to: https://hub.docker.com/r/centurylink/mysql/
+- Docker, I installed Docker Toolbox (Docker version 17.07.0-ce, build 8784753)
+- Docker image: centurylink/mysql (ubuntu:14.04)
+  - Refer to: https://hub.docker.com/r/centurylink/mysql/
 
 
 ## Some key points to complete this project
-
-- Add "Entity Framework packages" into *.csproj (Note: project.json disappeared from Core 1.1)
+- Add "Microsoft.AspNetCore.All" into *.csproj (Note: project.json disappeared from Core 1.1)
 
 ```xml
   <ItemGroup>
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
   </ItemGroup>
 ```
 
