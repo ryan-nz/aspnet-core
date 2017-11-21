@@ -11,7 +11,7 @@
 
 ## Software Prerequisites
 - Visual Studio 2017
-- SQLExpress (PS. I will test on MySql server on docker of Linux)
+- MySql running on docker (PS. I will test on MySql server on docker of Linux)
 
 
 ## Some key points to complete this project
