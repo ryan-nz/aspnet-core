@@ -1,7 +1,7 @@
 ## Skills Prerequisites
 - C#
 - Web API (RESTful)
-- Redis
+- NoSQL Redis
 - Dependency Injection
 - TDD (Mocker Testing)
 - MS Tests
