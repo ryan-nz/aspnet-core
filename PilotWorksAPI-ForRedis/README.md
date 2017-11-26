@@ -1,6 +1,5 @@
 ## Skills Prerequisites
 - C#
-- ORM (Object Relational Mapping) Note: You may use dynamic way for mapping.
 - Web API (RESTful)
 - Redis
 - Dependency Injection
