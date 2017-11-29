@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26730.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PilotWorksAPI-ForMongoDB", "PilotWorksAPI-ForMongoDB\PilotWorksAPI-ForMongoDB.csproj", "{F111D490-F9EE-4F17-93DC-0D7EA990E053}"
+	ProjectSection(ProjectDependencies) = postProject
+		{CE99D5B1-B329-4825-AEF2-1EFD5CD324EA} = {CE99D5B1-B329-4825-AEF2-1EFD5CD324EA}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PilotWorksAPI.Core", "PilotWorksAPI.Core\PilotWorksAPI.Core.csproj", "{CE99D5B1-B329-4825-AEF2-1EFD5CD324EA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PilotWorksAPI.UnitTests", "PilotWorksAPI.UnitTests\PilotWorksAPI.UnitTests.csproj", "{4ED42EEE-1BD0-40CE-9CEC-5F6391CBD4C7}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F111D490-F9EE-4F17-93DC-0D7EA990E053} = {F111D490-F9EE-4F17-93DC-0D7EA990E053}
+		{CE99D5B1-B329-4825-AEF2-1EFD5CD324EA} = {CE99D5B1-B329-4825-AEF2-1EFD5CD324EA}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F111D490-F9EE-4F17-93DC-0D7EA990E053}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F111D490-F9EE-4F17-93DC-0D7EA990E053}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F111D490-F9EE-4F17-93DC-0D7EA990E053}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F111D490-F9EE-4F17-93DC-0D7EA990E053}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CE99D5B1-B329-4825-AEF2-1EFD5CD324EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE99D5B1-B329-4825-AEF2-1EFD5CD324EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE99D5B1-B329-4825-AEF2-1EFD5CD324EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE99D5B1-B329-4825-AEF2-1EFD5CD324EA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4ED42EEE-1BD0-40CE-9CEC-5F6391CBD4C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4ED42EEE-1BD0-40CE-9CEC-5F6391CBD4C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4ED42EEE-1BD0-40CE-9CEC-5F6391CBD4C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4ED42EEE-1BD0-40CE-9CEC-5F6391CBD4C7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FD735BC4-02AA-42B0-ADDB-577E2A2E5CD6}
+	EndGlobalSection
+EndGlobal
