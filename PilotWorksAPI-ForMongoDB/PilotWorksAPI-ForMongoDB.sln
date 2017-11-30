@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26730.12
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PilotWorksAPI-ForMongoDB", "PilotWorksAPI-ForMongoDB\PilotWorksAPI-ForMongoDB.csproj", "{F111D490-F9EE-4F17-93DC-0D7EA990E053}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PilotWorksAPI.MongoDB", "PilotWorksAPI.MongoDB\PilotWorksAPI.MongoDB.csproj", "{F111D490-F9EE-4F17-93DC-0D7EA990E053}"
 	ProjectSection(ProjectDependencies) = postProject
 		{CE99D5B1-B329-4825-AEF2-1EFD5CD324EA} = {CE99D5B1-B329-4825-AEF2-1EFD5CD324EA}
 	EndProjectSection
