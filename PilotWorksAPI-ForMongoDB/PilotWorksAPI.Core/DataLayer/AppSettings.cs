@@ -6,7 +6,7 @@ namespace PilotWorksAPI.Core.DataLayer
 {
     public class AppSettings
     {
-        public String DefaultConnection { get; set; }
+        public String MongoServer { get; set; }
         public String Database { get; set; }
     }
 }

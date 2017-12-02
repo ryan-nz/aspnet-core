@@ -1,8 +1,11 @@
 ## Skills Prerequisites
 - C#
-- Web API (RESTful)
 - NoSQL MongoDB
+- Web API (RESTful), connected async to MongoDB
+- Configuration model
+- Options model
 - Dependency Injection
+- LINQ
 - TDD (Mocker Testing)
 - MS Tests
 

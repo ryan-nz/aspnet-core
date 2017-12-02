@@ -48,36 +48,36 @@ namespace PilotWorksAPI.UnitTests.TestCore
         [TestCleanup]
         public void TestCleanup()
         {
-            Repository.DeleteProduct("BI-808");
-            Repository.DeleteProduct("BI-909");
+            Repository.DeleteProductManyAsync("BI-808");
+            Repository.DeleteProductManyAsync("BI-909");
         }
 
         [TestMethod]
-        public async Task TestGetProducts_Core()
+        public async Task TestGetProductsAsync_Core()
         {
             // Test getting product list function
-            List<Product> list = await Repository.GetProducts();
+            IList<Product> list = (IList<Product>)await Repository.GetAllProductsAsync();
             Assert.IsNotNull(list);
             Assert.IsTrue(list.Count >= 2);
         }
 
         [TestMethod]
-        public async Task TestGetProduct_Core()
+        public async Task TestGetProductAsync_Core()
         {
             // Test getting one product function
-            Product product = await Repository.GetProduct("BI-909");
+            Product product = await Repository.GetProductAsync("BI-909");
             Assert.IsNotNull(product);
 
             // Test getting one product function
-            product = await Repository.GetProduct("BI-808");
+            product = await Repository.GetProductAsync("BI-808");
             Assert.IsNotNull(product);
         }
 
         [TestMethod]
-        public async Task TestAddProduct_Core()
+        public async Task TestAddProductAsync_Core()
         {
-            string strProductNumber = "MB-777";
-            Product product = await Repository.GetProduct(strProductNumber);
+            string strProductNumber = "MB-787";
+            Product product = await Repository.GetProductAsync(strProductNumber);
             if (product == null)
             {
                 product = new Product();
@@ -87,32 +87,58 @@ namespace PilotWorksAPI.UnitTests.TestCore
                 product.Price = 2999.99;
 
                 // Test adding function
-                await Repository.AddProduct(product);
+                await Repository.AddProductAsync(product);
             }
 
             // Test getting one product function
-            product = await Repository.GetProduct(strProductNumber);
+            product = await Repository.GetProductAsync(strProductNumber);
             Assert.IsNotNull(product);
         }
 
         [TestMethod]
-        public async Task TestDeleteProduct_Core()
+        public void TestDeleteProduct_Core()
         {
             // Remove done product with "BI-808" product number
-            await Repository.DeleteProduct("BI-808");
+            Repository.DeleteProduct("BI-808");
 
             // Remove done product with "BI-909" product number
-            await Repository.DeleteProduct("BI-909");
+            Repository.DeleteProduct("BI-909");
 
             // Test getting one product function
-            Product product = await Repository.GetProduct("BI-808");
+            Product product = Repository.GetProduct("BI-808");
             Assert.IsNull(product);
+        }
+
+        [TestMethod]
+        public async Task TestUpdateProductAsync_Core()
+        {
+            string strOriginalProductNumber = "BI-909";
+            Product product = Repository.GetProduct(strOriginalProductNumber);
+            if (product == null)
+            {
+                product = new Product();
+                // Prepare product entity to add into MongoDB
+                product.ProductName = "MotoBike";
+                product.ProductNumber = strOriginalProductNumber;
+                product.Price = 2999.99;
+
+                // Test adding function
+                Repository.AddProduct(product);
+            }
+
+            // Reset product properties
+            product.ProductName = "Surfboard";
+            product.ProductNumber = "SF-555";
+            product.Price = 66.66;
+
+            bool success = await Repository.UpdateProductAsync(product);
+            Assert.IsTrue(success);
         }
 
         public void TestDeleteAllProduct_Core()
         {
             // Remove all documents (products)
-            (Repository as PilotWorksRepository).DeleteAllProducts();
+            Repository.DeleteAllProductsAsync();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using PilotWorksAPI.Core.DataEntity;
+﻿using MongoDB.Bson;
+using PilotWorksAPI.Core.DataEntity;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -6,14 +7,26 @@ namespace PilotWorksAPI.Core.DataLayer
 {
     public interface IPilotWorksRepository
     {
-        Task<List<Product>> GetProducts();
+        Task<IEnumerable<Product>> GetAllProductsAsync();
 
-        Task<Product> GetProduct(string number);
+        Product GetProduct(string number);
 
-        Task AddProduct(Product product);
+        Task<Product> GetProductAsync(string number);
 
-        Task UpdateProduct(Product product);
+        void AddProduct(Product product);
 
-        Task DeleteProduct(string productNumber);
+        Task AddProductAsync(Product product);
+
+        bool DeleteProduct(string productNumber);
+
+        Task<bool> DeleteProductAsync(string productNumber);
+
+        Task<bool> DeleteProductManyAsync(string productNumber);
+
+        Task<bool> UpdateProductAsync(Product product);
+
+        bool DeleteAllProducts();
+
+        Task<bool> DeleteAllProductsAsync();
     }
 }

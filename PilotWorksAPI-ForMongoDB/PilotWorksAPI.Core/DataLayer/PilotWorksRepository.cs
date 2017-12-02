@@ -1,69 +1,174 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using PilotWorksAPI.Core.DataEntity;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Linq;
 
 namespace PilotWorksAPI.Core.DataLayer
 {
     public class PilotWorksRepository : IPilotWorksRepository
     {
-        private readonly MongoDB.Driver.IMongoDatabase _db;
-        private readonly string _mongoUrl;
-        private readonly string _collectionProduct;
+        private readonly PilotWorksContext _context = null;
 
         public PilotWorksRepository(IOptions<AppSettings> appSettings)
         {
-            _mongoUrl = appSettings.Value.DefaultConnection;
-
-            MongoDB.Driver.MongoUrl mongoUrl = new MongoDB.Driver.MongoUrl(_mongoUrl);
-            MongoDB.Driver.MongoClient client = new MongoDB.Driver.MongoClient(mongoUrl);
-            _db = client.GetDatabase(appSettings.Value.Database);
-
-            _collectionProduct = "product";
+            _context = new PilotWorksContext(appSettings);
         }
 
-        public IMongoDatabase Database()
+        public async Task<IEnumerable<Product>> GetAllProductsAsync()
         {
-            return _db;
+            try
+            {
+                return await _context.Products.Find(_ => true).ToListAsync();
+            }
+            catch (System.Exception ex)
+            {
+                // log out exception here
+                throw ex;
+            }
         }
 
-        protected IMongoCollection<Product> GetCollection()
+        public Product GetProduct(string number)
         {
-            IMongoCollection<Product> col = _db.GetCollection<Product>(_collectionProduct);
-            return col;
+            try
+            {
+                return _context.Products.Find(x => x.ProductNumber.Equals(number)).FirstOrDefault();
+            }
+            catch (System.Exception ex)
+            {
+                // log out exception here
+                throw ex;
+            }
         }
 
-        public async Task<List<Product>> GetProducts()
+        public async Task<Product> GetProductAsync(string number)
         {
-            return await GetCollection().Find(_ => true).ToListAsync();
+            try
+            {
+                return await _context.Products.Find(x => x.ProductNumber.Equals(number)).FirstOrDefaultAsync();
+            }
+            catch (System.Exception ex)
+            {
+                // log out exception here
+                throw ex;
+            }
         }
 
-        public async Task<Product> GetProduct(string number)
+        public void AddProduct(Product product)
         {
-            return await GetCollection().Find(x => x.ProductNumber.Contains(number)).FirstOrDefaultAsync();
+            try
+            {
+                _context.Products.InsertOne(product);
+            }
+            catch (System.Exception ex)
+            {
+                // log out exception here
+                throw ex;
+            }
         }
 
-        public async Task AddProduct(Product product)
+        public async Task AddProductAsync(Product product)
         {
-            await GetCollection().InsertOneAsync(product);
+            try
+            {
+                await _context.Products.InsertOneAsync(product);
+            }
+            catch (System.Exception ex)
+            {
+                // log out exception here
+                throw ex;
+            }
         }
 
-        public async Task DeleteProduct(string productNumber)
+        public bool DeleteProduct(string productNumber)
         {
-            await GetCollection().DeleteManyAsync(x => x.ProductNumber == productNumber);
+            try
+            {
+                DeleteResult deleteResult = _context.Products.DeleteOne(item => item.ProductNumber == productNumber);
+                return deleteResult.IsAcknowledged && deleteResult.DeletedCount > 0;
+            }
+            catch (System.Exception ex)
+            {
+                // log out exception here
+                throw ex;
+            }
         }
 
-        public async Task UpdateProduct(Product product)
+        public async Task<bool> DeleteProductAsync(string productNumber)
         {
-            throw new NotImplementedException();
+            try
+            {
+                DeleteResult deleteResult = await _context.Products.DeleteOneAsync(item => item.ProductNumber == productNumber);
+                return deleteResult.IsAcknowledged && deleteResult.DeletedCount > 0;
+            }
+            catch (System.Exception ex)
+            {
+                // log out exception here
+                throw ex;
+            }
         }
 
-        public void DeleteAllProducts()
+        public async Task<bool> DeleteProductManyAsync(string productNumber)
         {
-            GetCollection().DeleteMany(_ => true);
+            try
+            {
+                DeleteResult deleteResult = await _context.Products.DeleteManyAsync(item => item.ProductNumber == productNumber);
+                return deleteResult.IsAcknowledged && deleteResult.DeletedCount > 0;
+            }
+            catch (System.Exception ex)
+            {
+                // log out exception here
+                throw ex;
+            }
+        }
+
+        public async Task<bool> UpdateProductAsync(Product item)
+        {
+            try
+            {
+                ReplaceOneResult replaceResult = await _context.Products.ReplaceOneAsync(
+                    x => x.Id == item.Id  //update filter
+                    , item                                      //update values
+                    , new UpdateOptions { IsUpsert = true });   //update options
+
+                return replaceResult.IsAcknowledged && replaceResult.ModifiedCount > 0;
+            }
+            catch (System.Exception ex)
+            {
+                // log out exception here
+                throw ex;
+            }
+        }
+
+        public bool DeleteAllProducts()
+        {
+            try
+            {
+                DeleteResult deleteResult = _context.Products.DeleteMany(_ => true);
+
+                return deleteResult.IsAcknowledged && deleteResult.DeletedCount > 0;
+            }
+            catch (System.Exception ex)
+            {
+                // log out exception here
+                throw ex;
+            }
+        }
+
+        public async Task<bool> DeleteAllProductsAsync()
+        {
+            try
+            {
+                DeleteResult deleteResult = await _context.Products.DeleteManyAsync(_ => true);
+
+                return deleteResult.IsAcknowledged && deleteResult.DeletedCount > 0;
+            }
+            catch (System.Exception ex)
+            {
+                // log out exception here
+                throw ex;
+            }
         }
     }
 }
