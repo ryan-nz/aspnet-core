@@ -4,9 +4,7 @@ namespace PilotWorksAPI.Core.DataLayer
 {
     public interface IPilotWorksRepository : System.IDisposable
     {
-        StackExchange.Redis.ConnectionMultiplexer Connection();
-
-        IEnumerable<KeyValuePair<string, string>> GetProducts();
+        IList<KeyValuePair<string, string>> GetAllProducts();
 
         KeyValuePair<string, string> GetProduct(string key);
 

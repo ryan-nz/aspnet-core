@@ -16,22 +16,21 @@ namespace PilotWorksAPI.Controllers
             _pilotWorksRepository = repository;
         }
 
-        // GET Production/Product
+        // GET Production
         /// <summary>
         /// Retrieves a list of pairs with key:value
         /// </summary>
         /// <returns>List response</returns>
-        /*
         [HttpGet]
-        [Route("Product")]
         public IActionResult GetProducts()
         {
             var response = new ListModelResponse<KeyValuePair<string, string>>();
 
             try
             {
-                response.Model = _pilotWorksRepository.GetProducts();
-                response.Message = String.Format("Total of records: {0}", response.Model.Count());
+                IList<KeyValuePair<string, string>> allProducts = _pilotWorksRepository.GetAllProducts();
+                response.Model = _pilotWorksRepository.GetAllProducts();
+                response.Message = String.Format("Total of records: {0}", allProducts.Count);
             }
             catch (Exception ex)
             {
@@ -41,16 +40,15 @@ namespace PilotWorksAPI.Controllers
 
             return response.ToHttpResponse();
         }
-        */
 
-        //GET Production/Product?key=xxx
+        //GET Production/Product/{key}
         // <summary>
         // Retrieves a specific product by key
         // </summary>
         // <param name = "key" >Key ID</param>
         // <returns>Single response</returns>
         [HttpGet]
-        [Route("Product")]
+        [Route("Product/{key}")]
         public IActionResult GetProduct(string key)
         {
             var response = new SingleModelResponse<KeyValuePair<string, string>>();

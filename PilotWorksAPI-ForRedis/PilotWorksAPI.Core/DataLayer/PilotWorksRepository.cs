@@ -1,49 +1,47 @@
-﻿using System;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Threading;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using StackExchange.Redis;
+using System;
+using System.Collections.Generic;
 
 namespace PilotWorksAPI.Core.DataLayer
 {
     public class PilotWorksRepository : IPilotWorksRepository
     {
-        private readonly Lazy<ConnectionMultiplexer> _connection;
-        private readonly string _defaultConnection;
+        private readonly PilotWorksDbContext _context = null;
         private bool Disposed;
 
         public PilotWorksRepository(IOptions<AppSettings> appSettings)
         {
-            _defaultConnection = appSettings.Value.DefaultConnection;
-            _connection = new Lazy<ConnectionMultiplexer>(() => ConnectionMultiplexer.Connect(_defaultConnection));
+            _context = new PilotWorksDbContext(appSettings);
         }
 
         public void Dispose()
         {
             if (!Disposed)
             {
-                if (_connection != null && _connection.Value != null)
+                if (_context != null)
                 {
-                    _connection.Value.Dispose();
+                    _context.Dispose();
                     Disposed = true;
                 }
             }
         }
 
-        public ConnectionMultiplexer Connection()
+        private IDatabase Database
         {
-            return _connection.Value;
+            get
+            {
+                return _context.GetDatabase();
+            }
         }
 
-        public IEnumerable<KeyValuePair<string, string>> GetProducts()
+        public IList<KeyValuePair<string, string>> GetAllProducts()
         {
-            var db = Connection().GetDatabase();
-            IServer server = Connection().GetServer(_defaultConnection);
+            IServer server = _context.GetServer();
             var list = new List<KeyValuePair<String, String>>();
             foreach (var key in server.Keys())
             {
-                string value = db.StringGet(key);
+                string value = Database.StringGet(key);
                 list.Add(new KeyValuePair<string, string>(key, value));
             }
 
@@ -52,33 +50,29 @@ namespace PilotWorksAPI.Core.DataLayer
 
         public KeyValuePair<string, string> GetProduct(string key)
         {
-            var db = Connection().GetDatabase();
-            string value = db.StringGet(key);
+            string value = Database.StringGet(key);
             return new KeyValuePair<String, String>(key, value);
         }
 
         public bool AddProduct(string key, string value)
         {
-            var db = Connection().GetDatabase();
-            return db.StringSet(key, value);
+            return Database.StringSet(key, value);
         }
 
         public bool DeleteProduct(string key)
         {
-            var db = Connection().GetDatabase();
-            return db.KeyDelete(key);
+            return Database.KeyDelete(key);
         }
 
         public bool UpdateProduct(string key, string value)
         {
-            var db = Connection().GetDatabase();
-            string prevValue = db.StringGet(key);
+            string prevValue = Database.StringGet(key);
             if (string.IsNullOrEmpty(value))
             {
                 throw new KeyNotFoundException($"The key of '{key}' is not found.");
             }
 
-            return db.StringSet(key, value);
+            return Database.StringSet(key, value);
         }
     }
 }

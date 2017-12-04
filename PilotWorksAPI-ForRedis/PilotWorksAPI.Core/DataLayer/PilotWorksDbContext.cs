@@ -4,14 +4,14 @@ using System;
 
 namespace PilotWorksAPI.Core.DataLayer
 {
-    public class PilotWorksContext : IDisposable
+    public class PilotWorksDbContext : IDisposable
     {
         //private readonly Lazy<ConnectionMultiplexer> _connection;
         private readonly ConnectionMultiplexer _connection;
         private readonly string _defaultConnection;
         private bool Disposed { get; set; }
 
-        public PilotWorksContext(IOptions<AppSettings> appSettings)
+        public PilotWorksDbContext(IOptions<AppSettings> appSettings)
         {
             _defaultConnection = appSettings.Value.RedisConnection;
             _connection = ConnectionMultiplexer.Connect(_defaultConnection);
