@@ -9,11 +9,11 @@ namespace PilotWorksAPI.Core.DataLayer
 {
     public class PilotWorksRepository : IPilotWorksRepository
     {
-        private readonly PilotWorksContext _context = null;
+        private readonly PilotWorksDbContext _context = null;
 
         public PilotWorksRepository(IOptions<AppSettings> appSettings)
         {
-            _context = new PilotWorksContext(appSettings);
+            _context = new PilotWorksDbContext(appSettings);
         }
 
         public async Task<IEnumerable<Product>> GetAllProductsAsync()

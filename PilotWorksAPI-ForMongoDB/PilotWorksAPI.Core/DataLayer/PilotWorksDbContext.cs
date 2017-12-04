@@ -7,11 +7,11 @@ using System.Text;
 
 namespace PilotWorksAPI.Core.DataLayer
 {
-    public class PilotWorksContext
+    public class PilotWorksDbContext
     {
         private readonly IMongoDatabase _database = null;
 
-        public PilotWorksContext(IOptions<AppSettings> settings)
+        public PilotWorksDbContext(IOptions<AppSettings> settings)
         {
             var client = new MongoClient(settings.Value.MongoServer);
             if (client != null)
