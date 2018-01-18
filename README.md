@@ -9,4 +9,4 @@
 -	ORM
 -	LINQ
 -	Docker (running MySQL/Redis/MongoDB)
--	TDD (Mocker Testing) – Nunit and xUnit
+-	TDD (Mocker Testing) – MSTest and xUnit
